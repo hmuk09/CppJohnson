@@ -8,10 +8,8 @@
 
 typedef long long ll;
 
-const int N = 200050;
-const int K = 150050;
 const int INF = 1e9 + 7;
-const int maxCap = 1;
+const int MAXCAPACITY = 1;
 
 using std::cin;
 using std::cout;
@@ -119,12 +117,12 @@ int changeFlow(vector<vector<edge>>& edges, vector<pair<int, int>>& parent, int 
     return cost;
 };
 
-void add_edge(vector<vector<edge>>& edges, int from, int to, int cost, int capacity, int num) {
+void addEdge(vector<vector<edge>>& edges, int from, int to, int cost, int capacity, int num) {
     edges[from].emplace_back(to, static_cast<int>(edges[to].size()), cost, capacity, 0, num);
     edges[to].emplace_back(from, static_cast<int>(edges[from].size() - 1), -cost, 0, 0, num);
 }
 
-void read(vector<vector<edge>>& edges, int& n, int& m, int& k) {
+void read(vector<vector<edge>>& edges, size_t& n, int& m, int& k) {
     cin >> n >> m >> k;
 
     edges.resize(n);
@@ -134,12 +132,12 @@ void read(vector<vector<edge>>& edges, int& n, int& m, int& k) {
         cin >> x >> y >> cost;
         --x;
         --y;
-        add_edge(edges, x, y, cost, maxCap, i);
-        add_edge(edges, y, x, cost, maxCap, i);
+        addEdge(edges, x, y, cost, MAXCAPACITY, i);
+        addEdge(edges, y, x, cost, MAXCAPACITY, i);
     }
 }
 
-void solve(vector<vector<edge>>& edges, int n, int m, int k, int& maxFlow, int& sumCost) {
+void solve(vector<vector<edge>>& edges, size_t n, int m, int k, int& maxFlow, int& sumCost) {
     vector<int> dist(n);
     vector<pair<int, int>> parent(n);
 
@@ -154,7 +152,7 @@ void solve(vector<vector<edge>>& edges, int n, int m, int k, int& maxFlow, int& 
     }
 }
 
-void write(vector<vector<edge>>& edges, int n, int m, int k, int maxFlow, int sumCost) {
+void write(vector<vector<edge>>& edges, size_t n, int m, int k, int maxFlow, int sumCost) {
     int start = 0, final = n - 1;
     if (maxFlow < k) {
         cout << -1;
@@ -167,7 +165,8 @@ void write(vector<vector<edge>>& edges, int n, int m, int k, int maxFlow, int su
 }
 
 int main() {
-    int n, m, k, maxFlow, sumCost;
+    size_t n = 0;
+    int m = 0, k = 0, maxFlow = 0, sumCost = 0;
     vector<vector<edge>> edges;
 
     read(edges, n, m, k);
